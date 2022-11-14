@@ -16,15 +16,18 @@ const movie1 =
 
 
 const App = () => {
+    //可接受動態電影數據
     const [movies, setMovie] = useState([]);
     const [searchTerm, setsearchTerm] = useState([]);
 
+    //抓到api的電影數據
     const searchMovies = async (title) => {
         const response = await fetch(`${API_URL}&s=${title}`)
         const data = await response.json();
+        console.log(data.Search)
         setMovie(data.Search);
     }
-
+    //一進網頁先搜尋spider的數據,[]空字串跑一次就停
     useEffect(() => {
         searchMovies('spider');
     }, []);
@@ -37,11 +40,14 @@ const App = () => {
                 <input
                     placeholder='Search for movies'
                     value={searchTerm}
+
+                    //搜尋電影第一步 setsearchTerm抓到input裡面的值
                     onChange={(e) => setsearchTerm(e.target.value)}
                 />
                 <img
                     src={SearchIcon}
                     alt="search"
+                    //第2步傳到searchTerm再透過searchMovies抓出電影數據
                     onClick={() => searchMovies(searchTerm)}
                 />
 
